@@ -19,12 +19,17 @@ const mapa = {
   'Refeição saudavel.PNG': 'refeicao',
 }
 
+// recortes manuais: foca no assunto da foto (ex.: equipamentos na parte de baixo)
+const foco = { 'avaliacao-corporal': { left: 60, top: 470, width: 613, height: 383 } }
+
 const out = {}
 for (const [orig, slug] of Object.entries(mapa)) {
   const destino = `public/img/${slug}.webp`
   let info
   if (existsSync(`images/${orig}`)) {
-    info = await sharp(`images/${orig}`).rotate().resize({ width: 1400, withoutEnlargement: true }).webp({ quality: 80 }).toFile(destino)
+    let img = sharp(`images/${orig}`).rotate()
+    if (foco[slug]) img = sharp(await img.extract(foco[slug]).toBuffer())
+    info = await img.resize({ width: 1400, withoutEnlargement: true }).webp({ quality: 80 }).toFile(destino)
   } else if (existsSync(destino)) {
     info = await sharp(destino).metadata()
   } else continue

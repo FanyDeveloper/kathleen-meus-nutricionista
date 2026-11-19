@@ -47,8 +47,8 @@ export const imagens = {
   },
   "avaliacao-corporal": {
     "src": "/img/avaliacao-corporal.webp",
-    "width": 673,
-    "height": 853
+    "width": 613,
+    "height": 383
   },
   "cardapios": {
     "src": "/img/cardapios.webp",
